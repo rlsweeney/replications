@@ -10,7 +10,7 @@ filename.dta <- paste(filename, ".dta", sep = "")
 curl_download(paste(url.Saiz2010, filename.html, ".zip", sep = ""), destfile = filename.zip, quiet = FALSE)
 
 unzip(filename.zip)
-housing.elasticity <- read.dta(filename.dta)
+wharton.land.regulation <- read.dta(filename.dta)
 unlink(filename.zip)
 unlink(filename.dta)
 rm(url.Saiz2010, filename, filename.html, filename.zip, filename.dta)
