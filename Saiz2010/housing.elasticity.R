@@ -8,5 +8,6 @@ filename.dta <- "HOUSING_SUPPLY.dta"
 curl_download(paste(url.Saiz2010, filename.zip, sep = ""), destfile = filename.zip, quiet = FALSE)
 unzip(filename.zip)
 housing.supply <- read.dta(filename.dta)
-unlink(filename.dta, filename.zip)
+unlink(filename.dta)
+unlink(filename.zip)
 rm(filename.dta, filename.zip, url.Saiz2010)
