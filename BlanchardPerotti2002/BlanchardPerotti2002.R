@@ -1,9 +1,11 @@
 rm(list = ls())
-pklist <- c("tidyverse", "data.table", "gdata",  "curl")
+pklist <- c("tidyverse", "data.table", "gdata",  "curl", "pracma", "nleqslv", "matrixStats")
 source("https://raw.githubusercontent.com/fgeerolf/R/master/load-packages.R")
-load(url("https://github.com/fgeerolf/datasets/raw/master/replications/MertensRavn2014/DATA.RData"))
-load(url("https://github.com/fgeerolf/datasets/raw/master/oecd/EO.RData"))
+
 source("https://raw.githubusercontent.com/fgeerolf/econ-221/master/course2/plotirf.R")
+load(url("https://github.com/fgeerolf/replications/raw/master/MertensRavn2014/DATA.RData"))
+load(url("https://github.com/fgeerolf/datasets/raw/master/oecd/EO.RData"))
+
 
 # fntarget ----------------------
 
@@ -188,7 +190,7 @@ bindData <- rbind(list(0, 0, 0, 0, 0, 0), bindData)
 bindData[,2:6] <- - bindData[,2:6]                                 
 
 bindDatamelted <- bindData %>% 
-  as.data.table() %>% 
+  as.data.table %>% 
   melt(id.vars = "lag")
 
 
