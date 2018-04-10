@@ -1,7 +1,9 @@
 rm(list = ls())
-pklist <- c("tidyverse", "dynlm", "data.table", "matrixStats", "boot")
+pklist <- c("tidyverse", "dynlm", "data.table", "matrixStats", "boot", "openxlsx")
 source("https://raw.githubusercontent.com/fgeerolf/R/master/load-packages.R")
 load(url("https://github.com/fgeerolf/data/raw/master/oecd/EO.RData"))
+load(url("https://github.com/fgeerolf/replications/raw/master/MertensRavn2014/RRTAXSHOCKS.RData"))
+load(url("https://github.com/fgeerolf/replications/raw/master/MertensRavn2014/JME2014_data.RData"))
 
 p1 <- 0.95
 p2 <- 0.68
@@ -159,12 +161,13 @@ for (var in listvariablesLN){
 
 # From Romer-Romer 2010 -----------
 
+curl_download("https://www.aeaweb.org/aer/data/june2010/20080421_data.zip", "20080421_data.zip", quiet = FALSE)
+unzip("20080421_data.zip")
+unlink("20080421_data.zip")
+unlink("DataSet", recursive = TRUE)
 
-system("pwd")
-system("ssconvert -S DataSet/RomerRomerFiscalData.xlsx DataSet/RomerRomerFiscalData.csv")
-
-RomerRomerFiscalData1 <- read.csv('DataSet/RomerRomerFiscalData1.csv', skip = 11) %>%
-  rename(yearqtr = X) %>%
+RomerRomerFiscalData1 <- read.xlsx("DataSet/RomerRomerFiscalData.xlsx", sheet = 1, startRow = 11) %>%
+  rename(yearqtr = X1) %>%
   select(-starts_with("X.")) %>%
   mutate(yearqtr = (row_number()-1)*0.25 + 1945) %>%
   select(yearqtr, everything()) %>%
@@ -173,8 +176,8 @@ RomerRomerFiscalData1 <- read.csv('DataSet/RomerRomerFiscalData1.csv', skip = 11
 RomerRomerFiscalData1.extract <- RomerRomerFiscalData1 %>%
   select(yearqtr, EXOGENR)
 
-RomerRomerFiscalData2 <- read.csv('DataSet/RomerRomerFiscalData2.csv', skip = 18) %>%
-  rename(yearqtr = X) %>%
+RomerRomerFiscalData2 <- read.xlsx("DataSet/RomerRomerFiscalData.xlsx", sheet = 2, startRow = 18) %>%
+  rename(yearqtr = X1) %>%
   select(-starts_with("X.")) %>%
   mutate(yearqtr = (row_number()-1)*0.25 + 1945) %>%
   select(yearqtr, everything()) %>%
@@ -250,5 +253,3 @@ romerromer2010("DUR")
 romerromer2010("NONDUR")
 romerromer2010("PGDP")
 romerromer2010("NOMGDP")
-
-
